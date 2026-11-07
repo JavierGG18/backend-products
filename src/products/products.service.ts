@@ -1,26 +1,71 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity.js';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>
+  ){}
+
+  private async findByName(name : string) : Promise<Product | null> {
+    const product =  await this.productRepository.findOne({ where: {name} });
+    return product;
   }
 
-  findAll() {
-    return `This action returns all products`;
+  private async findById(id : number) : Promise<Product | null> {
+    const product =  await this.productRepository.findOne({ where: {id} });
+    return product;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async create(createProductDto: CreateProductDto) : Promise<Product> {
+    //verificar si existe el producto en base al nombre
+    const exists = await this.findByName(createProductDto.name);
+    if(exists){
+      throw new BadRequestException(`El producto con el nombre: ${exists.name} ya se encuentra registrado`);
+    }
+    
+    const product = await this.productRepository.create(createProductDto);
+    return this.productRepository.save(product);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async findAll() : Promise<Product[]> {
+    const products = await this.productRepository.find();
+    return products;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async findOne(id: number) : Promise<Product> {
+    //verificar si existe el producto en base al id
+    const product = await this.findById(id);
+    if(!product){
+      throw new NotFoundException(`El producto con id: ${id} no existe`)
+    }
+
+    return product;
+  }
+
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    //verificar si existe el producto en base al id
+    const product = await this.findById(id);
+    if(!product){
+      throw new NotFoundException(`El producto con id: ${id} no existe`)
+    }
+
+    await this.productRepository.update(id, updateProductDto);
+    return { message : "Producto actualizado exitosamente" };
+  }
+
+  async remove(id: number) {
+    //verificar si existe el producto en base al id
+    const product = await this.findById(id);
+    if(!product){
+      throw new NotFoundException(`El producto con id: ${id} no existe`)
+    }
+
+    return await this.productRepository.remove(product);
   }
 }
