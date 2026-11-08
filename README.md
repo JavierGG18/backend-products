@@ -1,5 +1,4 @@
 # Examen técnico Backend NestJs
-
 Proyecto de prueba técnica API REST de CRUD de productos
 
 ## Instalar dependencias
@@ -24,3 +23,6 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+## Ruta de documentación swagger api
+http://localhost:3000/api/
