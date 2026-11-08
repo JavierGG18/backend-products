@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -15,7 +14,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API de Productos')
-    .setDescription('Documentación oficial del backend con NestJS')
+    .setDescription('Documentación CRUD productos para prueba técnica')
     .setVersion('1.0')
     .addTag('products')
     .build();
