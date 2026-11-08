@@ -1,8 +1,22 @@
 # Examen técnico Backend NestJs
 Proyecto de prueba técnica API REST de CRUD de productos
 
-## Instalar dependencias
+## Tecnologías y Herramientas
 
+* **Framework:** NestJS
+* **Validación de datos:** `class-validator` & `class-transformer`
+* **Base de datos:** MySQL (vía TypeORM)
+* **Documentación:** OpenAPI / Swagger
+
+## Variables en archivo .env requeridas
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=tusuario
+DB_PASSWORD=tupassword
+DB_NAME=tubasededatos
+
+
+## Instalar dependencias
 ```bash
 $ npm install
 $ npm install class-validator class-transformer   
@@ -23,6 +37,8 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
 
 ## Ruta de documentación swagger api
 http://localhost:3000/api/
+
