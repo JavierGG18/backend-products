@@ -5,7 +5,7 @@ Proyecto de prueba técnica API REST de CRUD de productos
 
 * **Framework:** NestJS
 * **Validación de datos:** `class-validator` & `class-transformer`
-* **Base de datos:** MySQL (vía TypeORM)
+* **Base de datos:** MySQL (vía TypeORM) (El script de creación de db y tabla se encuentra en la carpeta sql)
 * **Documentación:** OpenAPI / Swagger
 
 ## Variables en archivo .env requeridas
